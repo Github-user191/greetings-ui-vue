@@ -26,7 +26,7 @@ const greetings = ref([]);
 
 onBeforeMount(async () => {
   const hostname = import.meta.envVITE_HOSTNAME ?? "localhost:3000";
-  greetings.value = await get(`http://${hostname}/api/greetings`);
+  greetings.value = await get(`${hostname}/api/greetings`);
 })
 
 

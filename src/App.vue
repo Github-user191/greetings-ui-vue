@@ -19,6 +19,7 @@
 import { onBeforeMount, ref } from 'vue'
 import GreetingCard from './components/GreetingCard.vue'
 import { get } from '../src/utils/api/makeApiCall.js'
+import appInsights from './insights/appInsights.js';
 
 
 const greetings = ref([]);
@@ -32,11 +33,17 @@ onBeforeMount(async () => {
 
   console.log("VITE_HOSTNAME ", import.meta.env.VITE_HOSTNAME)
   console.log("VITE_IS_STATIC ", import.meta.env.VITE_IS_STATIC)
-  console.log("PROCESS.ENV ", process.env)
 
   if(!isStaticSite.value) {
+
+    // Log a custom event when the app starts
+    appInsights.trackEvent({ name: 'MakeApiCall' });
+
     greetings.value = await get(`${hostname}/api/greetings`);
   } else {
+
+    appInsights.trackEvent({ name: 'MakeInMemoryCall' });
+
     greetings.value = [
       { Id: 1, Language: "English", Greeting: "Hello" },
       { Id: 2, Language: "Spanish", Greeting: "Hola" },

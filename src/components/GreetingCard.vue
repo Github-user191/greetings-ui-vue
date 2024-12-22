@@ -1,5 +1,5 @@
 <template>
-  <div class="greeting-card">
+  <div class="greeting-card" @click="handleGreetingClick(language)">
     <div class="card-content">
       <h2 class="language">{{ language }}</h2>
       <p class="greeting">{{ greeting }}</p>
@@ -8,10 +8,24 @@
 </template>
 
 <script setup>
+import appInsights from '../insights/appInsights';
+
+
 defineProps({
     language: String,
     greeting: String
 })
+
+const handleGreetingClick = (language) => {
+    console.error("You clicked on the " + language + " greeting")
+
+    appInsights.trackEvent({
+        name: "You clicked on the " + language + " greeting"
+    })
+}
+
+
+
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
   <section class="greetings-page">
     <div class="greetings-container">
-      <h1 class="greetings-title">Welcome to the Greetings App!!!!!</h1>
+      <h1 class="greetings-title">Welcome to the Greetings App!</h1>
       <p class="greetings-description">Explore greetings from different cultures and languages.</p>
       <div class="greetings-grid" v-if="greetings?.length>0">
         <GreetingCard

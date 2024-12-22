@@ -29,10 +29,10 @@ onBeforeMount(async () => {
   const hostname = import.meta.env.VITE_HOSTNAME;
   isStaticSite.value = import.meta.env.VITE_IS_STATIC === 'true';
 
-  console.log(isStaticSite.value)
 
   console.log("VITE_HOSTNAME ", import.meta.env.VITE_HOSTNAME)
   console.log("VITE_IS_STATIC ", import.meta.env.VITE_IS_STATIC)
+  console.log("PROCESS.ENV ", process.env)
 
   if(!isStaticSite.value) {
     greetings.value = await get(`${hostname}/api/greetings`);

@@ -1,7 +1,7 @@
 <template>
   <section class="greetings-page">
     <div class="greetings-container">
-      <h1 class="greetings-title">Welcome to the Greetings App!</h1>
+      <h1 class="greetings-title">Welcome to the Greetings App!!!!!</h1>
       <p class="greetings-description">Explore greetings from different cultures and languages.</p>
       <div class="greetings-grid" v-if="greetings?.length>0">
         <GreetingCard
@@ -26,8 +26,12 @@ const isStaticSite = ref(false);
 
 
 onBeforeMount(async () => {
-  const hostname = import.meta.env.VITE_HOSTNAME ?? "localhost:3000";
+  const hostname = import.meta.env.VITE_HOSTNAME ?? "localhost:8080";
   isStaticSite.value = import.meta.env.VITE_IS_STATIC === 'true';
+
+
+  console.log("VITE_HOSTNAME ", import.meta.env.VITE_HOSTNAME)
+  console.log("VITE_IS_STATIC ", import.meta.env.VITE_IS_STATIC)
 
   if(!isStaticSite.value) {
     greetings.value = await get(`${hostname}/api/greetings`);

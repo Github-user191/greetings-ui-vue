@@ -26,14 +26,14 @@ const isStaticSite = ref(false);
 
 
 onBeforeMount(async () => {
-  const hostname = import.meta.env.VITE_HOSTNAME ?? "localhost:8080";
+  const hostname = import.meta.env.VITE_HOSTNAME;
   isStaticSite.value = import.meta.env.VITE_IS_STATIC === 'true';
 
 
   console.log("VITE_HOSTNAME ", import.meta.env.VITE_HOSTNAME)
   console.log("VITE_IS_STATIC ", import.meta.env.VITE_IS_STATIC)
 
-  if(!isStaticSite.value) {
+  if(!isStaticSite.value && hostname !== undefined) {
     greetings.value = await get(`${hostname}/api/greetings`);
   } else {
     greetings.value = [

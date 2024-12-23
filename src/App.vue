@@ -19,7 +19,7 @@
 import { onBeforeMount, ref } from 'vue'
 import GreetingCard from './components/GreetingCard.vue'
 import { get } from '../src/utils/api/makeApiCall.js'
-import { trackCustomEvent, trackGreetingView, trackError } from './insights/customInsights.js';
+import { trackCustomEvent} from './insights/customInsights.js';
 
 
 const greetings = ref([]);
@@ -39,14 +39,16 @@ onBeforeMount(async () => {
 
   if(!isStaticSite.value) {
 
-    greetings.value = await get(`${hostname}/api/greetings`);
 
-
-    trackCustomEvent('MakeApiCall', {
-      url: `${hostname}/api/greetings`,
-      response: greetings.value
-    });
-
+      try {
+        greetings.value = await get(`${hostname}/api/greetings`);
+        trackCustomEvent('MakeApiCall', {
+          endpoint: `${hostname}/api/greetings`
+        });
+      } catch (error) {
+        console.error('Failed to fetch greetings:', error);
+        trackError(error, 'App.vue - Fetching Greetings');
+      }
     
   } else {
 
@@ -70,7 +72,8 @@ onBeforeMount(async () => {
 
     
     trackCustomEvent('MakeInMemoryCall', {
-      response: greetings.value
+      response: greetings.value,
+      success: true
     });
 
   }

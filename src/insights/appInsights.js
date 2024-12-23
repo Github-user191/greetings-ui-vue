@@ -10,6 +10,9 @@ const appInsights = new ApplicationInsights({
   }
 });
 
+console.log(appInsights.config)
+
+
 // Initialize the Application Insights
 appInsights.loadAppInsights();
 appInsights.trackPageView(); // Track the initial page view

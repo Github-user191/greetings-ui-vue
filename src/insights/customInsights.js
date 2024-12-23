@@ -10,17 +10,6 @@ const trackCustomEvent = (eventName, eventData = {}) => {
     });
   };
 
-const trackGreetingView = (language, greeting) => {
-    appInsights.trackEvent({
-      name: 'GreetingViewed',
-      properties: {
-        language: language,
-        greeting: greeting,
-        timestamp: new Date().toISOString()
-      }
-    });
-  };
-
   
   const trackError = (error, source) => {
     appInsights.trackException({
@@ -33,4 +22,4 @@ const trackGreetingView = (language, greeting) => {
   };
 
 
-  export {trackGreetingView, trackError, trackCustomEvent}
+  export { trackError, trackCustomEvent}

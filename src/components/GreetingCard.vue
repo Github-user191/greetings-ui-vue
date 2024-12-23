@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import appInsights from '../insights/appInsights';
+import {trackGreetingView, trackError, trackCustomEvent} from '../insights/customInsights';
 
 
 defineProps({
@@ -17,15 +17,18 @@ defineProps({
 })
 
 const handleGreetingClick = (language, greeting) => {
-    console.error("You clicked on the " + language + " greeting")
 
-    appInsights.trackEvent({
-        name: 'ClickedGreetingCard',
-        properties: { // accepts any type
-            language: language,
-            greeting: greeting
-        }   
-    });
+    trackGreetingView(language, greeting)
+
+    trackCustomEvent("GreetingClicked", {
+        language: language,
+        greeting: greeting
+    })
+
+    trackError("GreetingError", {
+        language: language,
+        greeting: greeting
+    })
 }
 
 

@@ -19,7 +19,7 @@
 import { onBeforeMount, ref } from 'vue'
 import GreetingCard from './components/GreetingCard.vue'
 import { get } from '../src/utils/api/makeApiCall.js'
-import appInsights from './insights/appInsights.js';
+import { trackCustomEvent, trackGreetingView, trackError } from './insights/customInsights.js';
 
 
 const greetings = ref([]);
@@ -34,17 +34,21 @@ onBeforeMount(async () => {
   console.log("VITE_HOSTNAME ", import.meta.env.VITE_HOSTNAME)
   console.log("VITE_IS_STATIC ", import.meta.env.VITE_IS_STATIC)
   console.log("CONN STRING ", import.meta.env.VITE_APPLICATIONINSIGHTS_CONNECTION_STRING)
+  console.log("INSTRUMENTATION KEY STRING ", import.meta.env.VITE_APPINSIGHTS_INSTRUMENTATIONKEY)
   console.log("VITE_LOL ", import.meta.env.VITE_LOL)
 
   if(!isStaticSite.value) {
 
-    // Log a custom event when the app starts
-    appInsights.trackEvent({ name: 'MakeApiCall' });
-
     greetings.value = await get(`${hostname}/api/greetings`);
-  } else {
 
-    appInsights.trackEvent({ name: 'MakeInMemoryCall' });
+
+    trackCustomEvent('MakeApiCall', {
+      url: `${hostname}/api/greetings`,
+      response: greetings.value
+    });
+
+    
+  } else {
 
     greetings.value = [
       { Id: 1, Language: "English", Greeting: "Hello" },
@@ -63,6 +67,11 @@ onBeforeMount(async () => {
       { Id: 14, Language: "Swedish", Greeting: "Hej" },
       { Id: 15, Language: "Turkish", Greeting: "Merhaba" }
     ];
+
+    
+    trackCustomEvent('MakeInMemoryCall', {
+      response: greetings.value
+    });
 
   }
   

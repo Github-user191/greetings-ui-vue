@@ -1,5 +1,5 @@
 import axios from "axios";
-import { trackEvent } from '../../insights/customInsights.js';
+import { trackEvent, trackException} from '../../insights/customInsights.js';
 
 
 
@@ -40,7 +40,7 @@ const makeApiCall = async (method, path, data = null, config = {}) => {
 
       console.log(errorDetails)
 
-      trackEvent('ApiCallFailure', errorDetails);
+      trackException('ApiCallFailure', errorDetails);
 
       console.error(`Error: ${error}`);
     }

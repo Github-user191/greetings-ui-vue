@@ -18,7 +18,7 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
 import GreetingCard from './components/GreetingCard.vue'
-import { get } from '../src/utils/api/makeApiCall.js'
+import { makeApiCall } from '../src/utils/api/makeApiCall.js'
 import { trackEvent, trackException} from './insights/customInsights.js';
 
 
@@ -27,27 +27,11 @@ const isStaticSite = ref(false);
 
 
 onBeforeMount(async () => {
-  const hostname = import.meta.env.VITE_HOSTNAME;
 
-  console.log("HOST NAME ", hostname)
   isStaticSite.value = import.meta.env.VITE_IS_STATIC === 'true';
 
-  console.log("IS STATIC SITE ", isStaticSite.value)
-
   if(!isStaticSite.value) {
-
-      try {
-        greetings.value = await get(`${hostname}/api/greetings`);
-        trackEvent('MakeApiCall', {
-          endpoint: `${hostname}/api/greetings`
-        });
-      } catch (error) {
-        console.error('Failed to fetch greetings:', error);
-        trackException(error, {
-          source: 'App.vue - Fetching Greetings'
-        });
-      }
-    
+    greetings.value = await makeApiCall("GET", `api/greetings`);
   } else {
 
     greetings.value = [

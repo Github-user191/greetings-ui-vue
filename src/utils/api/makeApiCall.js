@@ -1,7 +1,19 @@
 import axios from "axios";
+import { trackEvent } from '../../insights/customInsights.js';
+
+
+
+const getBaseUrl = () => {
+  const env = import.meta.env.VITE_ENV ?? "DEV";
+  const hostname = import.meta.env.VITE_HOSTNAME;
+  return env === 'DEV' ? 'http://localhost:8080' : `https://${hostname}`;
+};
 
 // Wrapper function for Axios requests
-const makeApiCall = async (method, url, data = null, config = {}) => {
+const makeApiCall = async (method, path, data = null, config = {}) => {
+
+  const url = `${getBaseUrl()}/${path}`;
+
     try {
       const response = await axios({
         method,
@@ -10,24 +22,31 @@ const makeApiCall = async (method, url, data = null, config = {}) => {
         ...config
       });
       
+      trackEvent('ApiCallSuccess', {
+        url,
+        method,
+        statusCode: response.status
+      });
+      
       return response.data; 
     } catch (error) {
-      if (error.response) {
-        console.error(`Error: ${error.response.status} - ${error.response.statusText}`);
-        console.error(error.response.data);
-        throw new Error(error.response.data.message || 'API request failed');
-      } else if (error.request) {
-        console.error('Error: No response received from the server');
-        throw new Error('No response from the server');
-      } else {
-        console.error(`Error: ${error.message}`);
-        throw new Error(error.message);
-      }
+
+      const errorDetails = {
+        url,
+        method,
+        requestData: JSON.stringify(data),
+        errorMessage: error.message
+      };
+
+      console.log(errorDetails)
+
+      trackEvent('ApiCallFailure', errorDetails);
+
+      console.error(`Error: ${error}`);
     }
 };
 
-const get = (url, config = {}) => makeApiCall('GET', url, null, config);
 
 export {
-    get
+  makeApiCall
 }

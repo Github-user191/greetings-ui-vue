@@ -1,5 +1,5 @@
 <template>
-  <div class="greeting-card" @click="handleGreetingClick(language)">
+  <div class="greeting-card" @click="handleGreetingClick(language, greeting)">
     <div class="card-content">
       <h2 class="language">{{ language }}</h2>
       <p class="greeting">{{ greeting }}</p>
@@ -16,12 +16,16 @@ defineProps({
     greeting: String
 })
 
-const handleGreetingClick = (language) => {
+const handleGreetingClick = (language, greeting) => {
     console.error("You clicked on the " + language + " greeting")
 
     appInsights.trackEvent({
-        name: "You clicked on the " + language + " greeting"
-    })
+        name: 'ClickedGreetingCard',
+        properties: { // accepts any type
+            language: language,
+            greeting: greeting
+        }   
+    });
 }
 
 

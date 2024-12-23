@@ -33,7 +33,8 @@ onBeforeMount(async () => {
 
   console.log("VITE_HOSTNAME ", import.meta.env.VITE_HOSTNAME)
   console.log("VITE_IS_STATIC ", import.meta.env.VITE_IS_STATIC)
-  console.log("INSTRUMENTATION KEY ", import.meta.env.VITE_APP_INSIGHTS_INSTRUMENTATION_KEY)
+  console.log("CONN STRING ", import.meta.env.VITE_APPLICATIONINSIGHTS_CONNECTION_STRING)
+  console.log("VITE_LOL ", import.meta.env.VITE_LOL)
 
   if(!isStaticSite.value) {
 

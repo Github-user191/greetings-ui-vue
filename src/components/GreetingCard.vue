@@ -18,8 +18,6 @@ defineProps({
 
 const handleGreetingClick = (language, greeting) => {
 
-    console.log("Clicked on " + language + " greeting")
-
     trackCustomEvent("GreetingClicked", {
         language: language,
         greeting: greeting

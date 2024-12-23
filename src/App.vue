@@ -28,7 +28,11 @@ const isStaticSite = ref(false);
 
 onBeforeMount(async () => {
   const hostname = import.meta.env.VITE_HOSTNAME;
+
+  console.log("HOST NAME ", hostname)
   isStaticSite.value = import.meta.env.VITE_IS_STATIC === 'true';
+
+  console.log("IS STATIC SITE ", isStaticSite.value)
 
   if(!isStaticSite.value) {
 

@@ -1,25 +1,25 @@
 import appInsights from './appInsights.js';
 
-const trackCustomEvent = (eventName, eventData = {}) => {
+const trackEvent = (name, properties = {}) => {
     appInsights.trackEvent({
-      name: eventName,
+      name: name,
       properties: {
-        ...eventData,
+        ...properties,
         timestamp: new Date().toISOString()
       }
     });
   };
 
   
-  const trackError = (error, source) => {
+  const trackException = (exception, properties = {}) => {
     appInsights.trackException({
-        exception: error,
+        exception: exception,
         properties: {
-            source: source,
+            ...properties,
             timestamp: new Date().toISOString()
         }
     });
   };
 
 
-  export { trackError, trackCustomEvent}
+  export { trackException, trackEvent}

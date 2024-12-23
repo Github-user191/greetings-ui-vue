@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import {trackCustomEvent} from '../insights/customInsights';
+import {trackEvent} from '../insights/customInsights';
 
 
 defineProps({
@@ -18,7 +18,7 @@ defineProps({
 
 const handleGreetingClick = (language, greeting) => {
 
-    trackCustomEvent("GreetingClicked", {
+    trackEvent("GreetingClicked", {
         language: language,
         greeting: greeting
     })

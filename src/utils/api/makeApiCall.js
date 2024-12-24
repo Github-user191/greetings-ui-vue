@@ -1,13 +1,8 @@
 import axios from "axios";
 import { trackEvent, trackException} from '../../insights/customInsights.js';
+import { getBaseUrl } from "./helper.js";
 
 
-
-const getBaseUrl = () => {
-  const env = import.meta.env.VITE_ENV ?? "DEV";
-  const hostname = import.meta.env.VITE_HOSTNAME;
-  return env === 'DEV' ? 'http://localhost:8080' : `https://${hostname}`;
-};
 
 // Wrapper function for Axios requests
 const makeApiCall = async (method, path, data = null, config = {}) => {
@@ -22,25 +17,22 @@ const makeApiCall = async (method, path, data = null, config = {}) => {
         ...config
       });
       
-      trackEvent('ApiCallSuccess', {
+      trackEvent('apiSuccess', {
         url,
         method,
-        statusCode: response.status
+        statusCode: response.status,
+        response: response.data
       });
       
       return response.data; 
     } catch (error) {
 
-      const errorDetails = {
+      trackException('apiFailure', {
         url,
         method,
         requestData: JSON.stringify(data),
-        errorMessage: error.message
-      };
-
-      console.log(errorDetails)
-
-      trackException('ApiCallFailure', errorDetails);
+        error: error
+      });
 
       console.error(`Error: ${error}`);
     }

@@ -17,13 +17,11 @@ defineProps({
 })
 
 const handleGreetingClick = (language, greeting) => {
-
     trackEvent("GreetingClicked", {
         language: language,
         greeting: greeting
     })
 }
-
 
 
 </script>

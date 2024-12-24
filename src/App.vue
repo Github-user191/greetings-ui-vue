@@ -19,7 +19,7 @@
 import { onBeforeMount, ref } from 'vue'
 import GreetingCard from './components/GreetingCard.vue'
 import { makeApiCall } from '../src/utils/api/makeApiCall.js'
-import { trackEvent, trackException} from './insights/customInsights.js';
+import { trackEvent} from './insights/customInsights.js';
 
 
 const greetings = ref([]);

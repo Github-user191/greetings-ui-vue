@@ -2,12 +2,12 @@ class EnvConfig {
   constructor() {
 
     const defaults = {
-        apiUrl: 'http://localhost:8080'
+        serverHostname: 'http://localhost:8080'
     }
   
     const isStaticEnv = import.meta.env.VITE_IS_STATIC;
     this.isStatic = isStaticEnv === undefined ? true : isStaticEnv === 'true';
-    this.apiUrl = import.meta.env.VITE_API_URL || defaults.apiUrl;
+    this.serverHostname = `https://${import.meta.env.VITE_SERVER_HOSTNAME}` || defaults.serverHostname;
 
   }
 
@@ -19,8 +19,8 @@ class EnvConfig {
     return import.meta.env.PROD;
   }
 
-  getApiUrl() {
-    return this.apiUrl
+  getServerHostname() {
+    return this.serverHostname
   }
 
   isStaticSite() {

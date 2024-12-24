@@ -29,7 +29,7 @@ onBeforeMount(async () => {
 
   console.log('Current Mode:', import.meta.env.MODE)
   console.log('ENV', import.meta.env)
-
+  console.log(envConfig.isStaticSite())
 
 
   if(!envConfig.isStaticSite()) {

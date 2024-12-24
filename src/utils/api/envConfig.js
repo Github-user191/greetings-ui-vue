@@ -1,31 +1,27 @@
 class EnvConfig {
-  constructor() {
-
-    const defaults = {
-        serverHostname: 'http://localhost:8080'
+    constructor() {
+      const env = import.meta.env
+      this.isStatic = import.meta.env.VITE_IS_STATIC === undefined ? true : import.meta.env.VITE_IS_STATIC === 'true';
+      this.serverHostname = env.VITE_SERVER_HOSTNAME 
+        ? `https://${env.VITE_SERVER_HOSTNAME}`
+        : 'http://localhost:8080'
     }
   
-    const isStaticEnv = import.meta.env.VITE_IS_STATIC;
-    this.isStatic = isStaticEnv === undefined ? true : isStaticEnv === 'true';
-    this.serverHostname = `https://${import.meta.env.VITE_SERVER_HOSTNAME}` || defaults.serverHostname;
-
+    isDevelopment() {
+      return import.meta.env.DEV
+    }
+  
+    isProduction() {
+      return import.meta.env.PROD
+    }
+  
+    getServerHostname() {
+      return this.serverHostname
+    }
+  
+    isStaticSite() {
+      return this.isStatic
+    }
   }
-
-  isDevelopment() {
-    return import.meta.env.DEV;
-  }
-
-  isProduction() {
-    return import.meta.env.PROD;
-  }
-
-  getServerHostname() {
-    return this.serverHostname
-  }
-
-  isStaticSite() {
-    return this.isStatic
-  }
-}
-
-export const envConfig = new EnvConfig()
+  
+  export const envConfig = new EnvConfig()
